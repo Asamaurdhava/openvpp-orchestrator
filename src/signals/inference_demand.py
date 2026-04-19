@@ -87,10 +87,12 @@ def generate(seed: int | None = None) -> pd.DataFrame:
         SIM_START, periods=SIM_HORIZON_DAYS * 24, freq="h", tz=PHOENIX_TZ
     )
 
+    import hashlib
     frames = []
     for vid in fleet["vehicle_id"]:
         # Per-vehicle stream so each vehicle's trace is independent but seeded.
-        v_seed = (seed + hash(vid)) & 0x7FFFFFFF
+        vid_hash = int.from_bytes(hashlib.sha1(vid.encode()).digest()[:4], "big")
+        v_seed = (seed + vid_hash) & 0x7FFFFFFF
         v_rng = np.random.default_rng(v_seed)
         frames.append(_sample_sessions_for_vehicle(v_rng, vid, hours))
 

@@ -191,10 +191,12 @@ def sample_scenarios_for_vehicle(
     if asof_ts.tzinfo is None:
         asof_ts = asof_ts.tz_localize(PHOENIX_TZ)
 
+    import hashlib
     asof_epoch = int(asof_ts.timestamp())
+    vid_hash = int.from_bytes(hashlib.sha1(vehicle_id.encode()).digest()[:4], "big")
     scenarios: list[pd.DataFrame] = []
     for k in range(n_scenarios):
-        s = (seed + k * 7919 + hash(vehicle_id) + asof_epoch * 31) & 0x7FFFFFFF
+        s = (seed + k * 7919 + vid_hash + asof_epoch * 31) & 0x7FFFFFFF
         rng = np.random.default_rng(s)
 
         grid = sample_grid_events(asof_ts, horizon_h, rng, spec)

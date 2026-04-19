@@ -124,8 +124,8 @@ The challenge PDF intentionally stays at the specification level. To simulate, w
 
 **Planning horizon:** 24 hours, 1-hour resolution.
 **Re-optimization cadence:** every 1 hour (rolling-horizon MPC).
-**Scenarios per stage:** 5 (sampled from forecasters).
-**Rationale:** 24h captures the diurnal cycle and next-day commute commitment. Hourly matches retail energy-market settlement granularity. 5 scenarios is the empirical knee between solve time and policy quality for battery dispatch problems (Mohammadi & Mehr, 2023).
+**Scenarios per stage:** **2**, sampled from the forecasters.
+**Rationale:** 24h captures the diurnal cycle and next-day commute commitment. Hourly matches retail energy-market settlement granularity. Original design targeted 5 scenarios per stage (Mohammadi & Mehr, 2023); after benchmarking we dropped to 2 because our rolling-horizon wrapper injects *observed* values at t = 0 into every scenario, so non-anticipativity collapses first-stage variance regardless of scenario count. Going from 5 → 2 cut solve time ~2.5× with no measurable revenue change. The ``forecaster`` module still defaults to ``n_scenarios=5`` — any caller can opt in to the richer sample for a one-off high-fidelity solve.
 
 ---
 

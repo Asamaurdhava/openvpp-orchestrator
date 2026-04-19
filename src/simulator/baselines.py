@@ -27,7 +27,6 @@ from src.config import CONFIG, PHOENIX_TZ
 from src.optimizer.rolling_horizon import (
     ActualTraces,
     _trip_kwh_per_hour,
-    simulate_vehicle_mpc,
     simulate_vehicle_smart_charge,
     simulate_vehicle_stochastic_coopt,
     simulate_vehicle_v2g_only,

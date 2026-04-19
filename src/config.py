@@ -100,7 +100,11 @@ class InferenceParams:
 @dataclass(frozen=True)
 class OptimizerParams:
     horizon_h: int = 24
-    n_scenarios: int = 5
+    # Originally set to 5. Dropped to 2 after benchmarking the 100-vehicle
+    # backtest: 5 scenarios added ~2.5× solve time per vehicle-year with
+    # negligible policy improvement once the first-stage t=0 is pinned to
+    # observed values. See docs/assumptions.md §2.9.
+    n_scenarios: int = 2
     reoptimize_every_h: int = 1
 
 
@@ -121,7 +125,11 @@ CONFIG = Config()
 def seed_for(stream: str) -> int:
     """Derive a per-module seed from MASTER_SEED and a stream label.
 
-    Using a fixed mapping keeps module seeds stable across refactors so long
-    as the stream name is unchanged.
+    Uses a SHA1-based hash of the stream name (not Python's built-in ``hash``,
+    which is salted per interpreter run) so seeds stay stable across fresh
+    process invocations. This is what makes the repo bit-reproducible.
     """
-    return (MASTER_SEED * 2654435761 + hash(stream)) & 0x7FFFFFFF
+    import hashlib
+    digest = hashlib.sha1(stream.encode("utf-8")).digest()
+    stream_int = int.from_bytes(digest[:4], "big")
+    return (MASTER_SEED * 2654435761 + stream_int) & 0x7FFFFFFF
