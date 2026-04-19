@@ -32,3 +32,11 @@ Thumbs.db
 
 # Pre-computed data + results ARE committed so the repo is clone-and-run.
 # Regenerate with `make reproduce`.
+
+# Submission artifacts live outside the repo (../submission_artifacts/).
+# The repo is the codebase only — decks and reels belong with the submission bundle.
+deck.pptx
+deck_generated.pptx
+deck_script.md
+reel_script.md
+reel.mp4

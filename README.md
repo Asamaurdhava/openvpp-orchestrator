@@ -184,10 +184,7 @@ python -m src.simulator.backtest --n-vehicles 10 --horizon-days 365
 # 5. Download real Phoenix temperature (optional, ~10 s)
 python scripts/fetch_real_references.py
 
-# 6. Auto-generate the 5-slide pitch deck from live backtest numbers
-python scripts/generate_deck.py
-
-# 7. Launch the dashboard
+# 6. Launch the dashboard
 streamlit run src/dashboard/app.py
 ```
 
@@ -238,25 +235,23 @@ openvpp-orchestrator/
 │   │   └── baselines.py            # 5 strategies
 │   └── dashboard/app.py            # Streamlit 4-tab demo
 ├── scripts/
-│   ├── fetch_real_references.py    # Phoenix temp from NOAA (Open-Meteo)
-│   └── generate_deck.py            # auto-build 5-slide pptx
+│   └── fetch_real_references.py    # Phoenix temp from NOAA (Open-Meteo)
 ├── data/                           # synthetic traces (committed for clone-and-run)
-├── results/                        # backtest outputs (committed)
-├── deck.pptx                       # 5-slide pitch (hand-built)
-├── deck_generated.pptx             # 5-slide pitch (auto-built from latest run)
-└── reel_script.md                  # 60–90s reel script
+└── results/                        # backtest outputs (committed)
 ```
 
 ---
 
 ## Submission artifacts
 
+This repository is the **codebase** for the submission. The non-code artifacts (pitch deck, reel video) are bundled separately with the submission:
+
 | Required by brief | Where |
 |---|---|
-| GitHub repo | [github.com/Asamaurdhava/openvpp-orchestrator](https://github.com/Asamaurdhava/openvpp-orchestrator) |
+| GitHub repo (codebase) | [github.com/Asamaurdhava/openvpp-orchestrator](https://github.com/Asamaurdhava/openvpp-orchestrator) |
 | README | This file |
-| 5-slide pitch deck | `deck.pptx` (hand) · `deck_generated.pptx` (auto from live numbers) |
-| 60–90s reel | Script at `reel_script.md` · video `reel.mp4` |
+| 5-slide pitch deck | Submitted alongside the repo link |
+| 60–90s reel | Submitted alongside the repo link |
 | Sample data · dashboards | `data/*.parquet` · `streamlit run src/dashboard/app.py` |
 
 ---
