@@ -1,7 +1,7 @@
 VENV ?= .venv
 PY = $(VENV)/bin/python
 
-.PHONY: help install data forecasters demo backtest deck dash clean reproduce
+.PHONY: help install data forecasters demo backtest dash clean reproduce
 
 help:
 	@echo "make install      install deps into $(VENV)"
@@ -9,9 +9,8 @@ help:
 	@echo "make forecasters  run forecaster sanity + visual demo"
 	@echo "make demo         single-vehicle MILP demo"
 	@echo "make backtest     full backtest (10 vehicles × 1 year)"
-	@echo "make deck         regenerate deck.pptx from backtest results"
 	@echo "make dash         launch Streamlit dashboard"
-	@echo "make reproduce    data + backtest + deck (full end-to-end)"
+	@echo "make reproduce    data + backtest (full end-to-end)"
 	@echo "make clean        delete generated data and results"
 
 install:
@@ -35,15 +34,11 @@ demo:
 backtest:
 	$(PY) -m src.simulator.backtest --n-vehicles 10 --horizon-days 365
 
-deck:
-	$(PY) -m src.pitch.deck
-
 dash:
 	$(VENV)/bin/streamlit run src/dashboard/app.py
 
-reproduce: data backtest deck
+reproduce: data backtest
 
 clean:
 	rm -f data/*.parquet
 	rm -f results/*.csv results/*.parquet results/*.png results/*.html
-	rm -f deck.pptx
